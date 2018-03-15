@@ -40,3 +40,15 @@ Route::get('getpd', 'productDetailController@getpd');
 Route::post('insertpd', 'productDetailController@insertpd');
 Route::delete('deletepd', 'productDetailController@deletepd');
 Route::put('updatepd', 'productDetailController@updatepd');
+
+//CART
+Route::get('getcart', 'cartController@getcart');
+Route::post('insertcart', 'cartController@insertcart');
+Route::delete('deletecart', 'cartController@deletecart');
+Route::put('updatecart', 'cartController@updatecart');
+
+//INVOICE
+Route::get('geti', 'invoiceController@getInvoice');
+Route::post('inserti', 'invoiceController@insertInvoice');
+Route::delete('deletei', 'invoiceController@deleteInvoice');
+Route::put('updatei', 'invoiceController@updateInvoice');
