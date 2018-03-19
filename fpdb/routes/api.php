@@ -41,6 +41,12 @@ Route::post('insertpd', 'productDetailController@insertpd');
 Route::delete('deletepd', 'productDetailController@deletepd');
 Route::put('updatepd', 'productDetailController@updatepd');
 
+//PRODUCT DESC
+Route::get('getpdesc', 'prodDescController@getpdesc');
+Route::post('insertpdesc', 'prodDescController@insertpdesc');
+Route::delete('deletepdesc', 'prodDescController@deletepdesc');
+Route::put('updatepdesc', 'prodDescController@updatepdesc');
+
 //CART
 Route::get('getcart', 'cartController@getcart');
 Route::post('insertcart', 'cartController@insertcart');

@@ -22,8 +22,6 @@ class productDetailController extends Controller
       $data['image'] = $request -> input('image');
       $data['description'] = $request -> input('description');
       $data['material'] = $request -> input('material');
-      $data['size'] = $request -> input('size');
-      $data['stock'] = $request -> input('stock');
       $data -> save();
 
       return response([

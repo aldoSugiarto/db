@@ -22,8 +22,6 @@ class CreateProductDetailsTable extends Migration
             $table->binary('image');
             $table->text('description');
             $table->string('material');
-            $table->integer('size')->unsigned();
-            $table->integer('stock')->unsigned();
             $table->timestamps();
             $table->foreign('categoryID')->references('id')->on('categories')->onDelete('cascade');
         });
