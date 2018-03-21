@@ -17,6 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware' => ['jwt.auth']], function() {
+  Route::get('logout', 'AuthController@logout');
+});
+
 //USER
 Route::get('getu', 'userController@getUser');
 Route::post('insertu', 'userController@insertUser');
@@ -58,3 +62,7 @@ Route::get('geti', 'invoiceController@getInvoice');
 Route::post('inserti', 'invoiceController@insertInvoice');
 Route::delete('deletei', 'invoiceController@deleteInvoice');
 Route::put('updatei', 'invoiceController@updateInvoice');
+
+//REGISTER
+Route::post('regis', 'AuthController@register');
+Route::post('login', 'AuthController@login');

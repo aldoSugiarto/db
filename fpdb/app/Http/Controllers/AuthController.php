@@ -7,19 +7,28 @@ use App\User;
 
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Notifications\Notifiable;
 use Validator;
 
 
 class AuthController extends Controller
 {
+  use Notifiable;
   public function register(Request $request)
   {
-      $credentials = $request->only('name', 'email', 'password');
+
+      $credentials = $request->only('name', 'email','password', 'province', 'city', 'district', 'zip', 'phone', 'gender');
 
       $rules = [
           'name' => 'required|min:4',
           'email' => 'required|email|max:255|unique:users',
-          'password' => 'required|min:4'
+          'password' => 'required|min:4',
+          'province' => 'required',
+          'city' => 'required',
+          'district' => 'required',
+          'zip' => 'required',
+          'phone' => 'required',
+          'gender' => 'required'
 
       ];
 
@@ -32,9 +41,30 @@ class AuthController extends Controller
         $name = $request->name;
         $email = $request->email;
         $password = bcrypt($request->password);
+        $province = $request->province;
+        $city = $request->city;
+        $district = $request->district;
+        $zip = $request->zip;
+        $phone = $request->phone;
+        $gender = $request->gender;
 
-        $user = User::create(['name' => $name, 'email' => $email, 'password' => ($password)]);
-}
+        $user = User::create([
+          'name' => $name,
+          'email' => $email,
+          'password' => $password,
+          'province' => $province,
+          'city' => $city,
+          'district' => $district,
+          'zip' => $zip,
+          'phone' => $phone,
+          'gender' => $gender
+
+        ]);
+
+        return response([
+          'msg' => 'success'
+        ],200);
+  }
 
 
 
@@ -54,9 +84,10 @@ class AuthController extends Controller
               return response()->json(['success'=> false, 'error'=> $validator->messages()]);
             }
 
-        $credentials['is_verified'] = 1;
-
-        try {
+        // $credentials['is_verified'] = 1;
+        //
+        try
+        {
             // attempt to verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials))
             {
@@ -70,19 +101,26 @@ class AuthController extends Controller
             return response()->json(['success' => false, 'error' => 'Failed to login, please try again.'], 500);
         }
 
+
         // all good so return the token
        return response()->json(['success' => true, 'data'=> [ 'token' => $token ]]);
     }
 
+
+
+
     public function logout(Request $request)
     {
-        $this->validate($request, ['token' => 'required']);
-
-        try {
-            JWTAuth::invalidate($request->input('token'));
+        try
+        {
+            JWTAuth::invalidate();
             return response()->json(['success' => true, 'message'=> "You have successfully logged out."]);
-        } catch (JWTException $e) {
+        }
+
+        catch (JWTException $e)
+        {
             // something went wrong whilst attempting to encode the token
             return response()->json(['success' => false, 'error' => 'Failed to logout, please try again.'], 500);
         }
     }
+}

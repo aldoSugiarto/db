@@ -7,6 +7,7 @@ use App\ProductDetail;
 
 class productDetailController extends Controller
 {
+  
   public function getpd()
   {
     return ProductDetail::all();
