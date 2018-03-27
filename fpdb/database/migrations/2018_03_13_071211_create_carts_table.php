@@ -14,13 +14,16 @@ class CreateCartsTable extends Migration
     public function up()
     {
         Schema::create('carts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('productID')->unsigned();
+            $table->uuid('id');
+            $table->primary('id');
+            $table->uuid('productID')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->integer('price')->unsigned();
             $table->timestamps();
             $table->foreign('productID')->references('id')->on('product_details')->onDelete('cascade');
         });
+
+        DB::statement('ALTER TABLE carts ALTER COLUMN id SET DEFAULT uuid_generate_v4();');
     }
 
     /**

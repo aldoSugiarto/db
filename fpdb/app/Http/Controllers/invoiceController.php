@@ -9,13 +9,16 @@ class invoiceController extends Controller
 {
   public function getInvoice()
   {
-    return Invoice::all();
+    $user = JWTAuth::toUser();
+    return $user->Invoice;
   }
 
   public function insertInvoice (Request $request)
   {
+      $user = JWTAuth::toUser();
       $data = new Invoice();
-      $data['userID'] = $request -> input('userID');
+
+      $data['userID'] = ['id'];
       $data['orderID'] = $request -> input('orderID');
       $data['totalPrice'] = $request -> input('totalPrice');
       $data['orderDate'] = $request -> input('orderDate');

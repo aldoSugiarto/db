@@ -14,9 +14,10 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('userID')->unsigned();
-            $table->integer('orderID')->unsigned();
+            $table->uuid('id');
+            $table->primary('id');
+            $table->uuid('userID')->unsigned();
+            $table->uuid('orderID')->unsigned();
             $table->integer('totalPrice')->unsigned();;
             $table->date('orderDate');
             $table->string('paymentType');
@@ -26,6 +27,8 @@ class CreateInvoicesTable extends Migration
             $table->foreign('orderID')->references('id')->on('carts')->onDelete('cascade');
             $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
         });
+
+        DB::statement('ALTER TABLE invoices ALTER COLUMN id SET DEFAULT uuid_generate_v4();');
     }
 
     /**

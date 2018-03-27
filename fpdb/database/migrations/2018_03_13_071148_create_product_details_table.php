@@ -14,8 +14,9 @@ class CreateProductDetailsTable extends Migration
     public function up()
     {
         Schema::create('product_details', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('categoryID')->unsigned();
+            $table->uuid('id');
+            $table->primary('id');
+            $table->uuid('categoryID')->unsigned();
             $table->string('brand');
             $table->string('name');
             $table->integer('price')->unsigned();
@@ -25,6 +26,8 @@ class CreateProductDetailsTable extends Migration
             $table->timestamps();
             $table->foreign('categoryID')->references('id')->on('categories')->onDelete('cascade');
         });
+
+        DB::statement('ALTER TABLE product_details ALTER COLUMN id SET DEFAULT uuid_generate_v4();');
     }
 
     /**
